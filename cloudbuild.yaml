@@ -1,0 +1,23 @@
+# In this directory, run the following command to build this builder.
+# $ gcloud builds submit
+
+steps:
+# Build the Bazel builder and output the version we built with.
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--tag=gcr.io/$PROJECT_ID/bazel', '.']
+- name: 'gcr.io/$PROJECT_ID/bazel'
+  args: ['version']
+
+# Build the targets.
+- name: 'gcr.io/$PROJECT_ID/bazel'
+  args: ['build', '--spawn_strategy=standalone', '//app:entry', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
+  dir: '.'
+- name: 'gcr.io/$PROJECT_ID/bazel'
+  args: ['build', '--spawn_strategy=standalone', '//:run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
+  dir: '.'
+
+# Project was built as bazel:target.
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['run', 'bazel:run']
+
+images: ['gcr.io/$PROJECT_ID/bazel']
