@@ -2,22 +2,27 @@
 # $ gcloud builds submit
 
 steps:
+#  Fetch source.
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', '--single-branch', '--branch=develop', 'https://github.com/codecakes/supplytracker_gae.git']
 # Build the Bazel builder and output the version we built with.
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '--tag=gcr.io/$PROJECT_ID/bazel', '.']
-- name: 'gcr.io/$PROJECT_ID/bazel'
-  args: ['version']
 
-# Build the targets.
-- name: 'gcr.io/$PROJECT_ID/bazel'
+  # Build the targets.
+- name: 'gcr.io/cloud-builders/bazel'
   args: ['build', '--spawn_strategy=standalone', '//app:entry', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
-- name: 'gcr.io/$PROJECT_ID/bazel'
+- name: 'gcr.io/cloud-builders/bazel'
   args: ['build', '--spawn_strategy=standalone', '//:run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
 
-# Project was built as bazel:target.
+  # Project was built as bazel:target.
 - name: 'gcr.io/cloud-builders/docker'
   args: ['run', 'bazel:run']
 
-images: ['gcr.io/$PROJECT_ID/bazel']
+# See: https://cloud.google.com/cloud-build/docs/configuring-builds/build-test-deploy-artifacts
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy']
+
+#images: ['gcr.io/cloud-builders/bazel']
