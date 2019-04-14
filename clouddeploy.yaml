@@ -1,0 +1,7 @@
+steps:
+#  Fetch source.
+# See: https://cloud.google.com/cloud-build/docs/configuring-builds/build-test-deploy-artifacts
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy']
+
+images: ['gcr.io/$PROJECT_ID/deploy']
