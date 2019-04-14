@@ -18,7 +18,3 @@ steps:
 - name: 'gcr.io/cloud-builders/bazel'
   args: ['build', '--spawn_strategy=standalone', '//:run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
-
-# See: https://cloud.google.com/cloud-build/docs/configuring-builds/build-test-deploy-artifacts
-#- name: 'gcr.io/cloud-builders/gcloud'
-#  args: ['app', 'deploy']

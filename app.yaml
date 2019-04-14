@@ -1,6 +1,6 @@
-runtime: custom
+runtime: python
 env: flex
-vm: true
+#vm: true
 entrypoint: gunicorn -b :$PORT run:app
 
 runtime_config:
