@@ -4,7 +4,7 @@
 steps:
 #  Fetch source.
 - name: 'gcr.io/cloud-builders/git'
-  args: ['clone', '--single-branch', '--branch=develop', 'https://github.com/codecakes/supplytracker_gae.git']
+  args: ['clone', '--single-branch', '--branch=develop', 'https://github.com/codecakes/supplytracker_gae.git', 'supplytracker_gae']
 # Build the Bazel builder and output the version we built with.
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['build', '--tag=gcr.io/$PROJECT_ID/bazel', '.']
