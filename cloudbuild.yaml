@@ -10,10 +10,11 @@ steps:
   args: ['build', '--tag=gcr.io/$PROJECT_ID/bazel', '.']
 
   # Build the targets.
-- name: 'gcr.io/cloud-builders/bazel'
+- name: 'gcr.io/$PROJECT_ID/bazel'
   args: ['build', '--spawn_strategy=standalone', '//app:entry', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
-- name: 'gcr.io/cloud-builders/bazel'
+
+- name: 'gcr.io/$PROJECT_ID/bazel'
   args: ['build', '--spawn_strategy=standalone', '//:run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
 
@@ -25,4 +26,4 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy']
 
-#images: ['gcr.io/cloud-builders/bazel']
+images: ['gcr.io/$PROJECT_ID/bazel']
