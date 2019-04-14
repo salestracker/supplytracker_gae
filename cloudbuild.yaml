@@ -20,7 +20,7 @@ steps:
   dir: '.'
 
 # See: https://cloud.google.com/cloud-build/docs/configuring-builds/build-test-deploy-artifacts
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy']
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  args: ['app', 'deploy']
 
 images: ['gcr.io/$PROJECT_ID/app_entry','gcr.io/$PROJECT_ID/run_server']
