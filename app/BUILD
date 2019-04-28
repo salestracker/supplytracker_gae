@@ -23,6 +23,12 @@ py_library(
     requirement("sqlalchemy"),
     requirement("gunicorn"),
     requirement("werkzeug"),
+    requirement("flask_babel"),
+    requirement("flask_login"),
+    requirement("flask_mail"),
+    requirement("flask_paginate"),
+    requirement("flask_sqlalchemy"),
+    requirement("jinja2"),
   ],
   visibility=['//visibility:public']
 )

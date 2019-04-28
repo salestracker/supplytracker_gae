@@ -1,5 +1,5 @@
 load("@bazel_for_gcloud_python//infra/serverless:gae_rules.bzl", "py_app_engine")
-
+load("@my_deps//:requirements.bzl", "requirement")
 
 py_library(
   name='manage',
@@ -23,6 +23,8 @@ py_binary(
   stamp=0,
   deps=[
     '//app:entry',
+    # This takes the name as specified in requirements.txt
+    requirement("gunicorn"),
   ],
   visibility=['//visibility:public'],
 )
