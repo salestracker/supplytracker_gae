@@ -69,7 +69,8 @@ py_library(
     ':utils',
     ':__init__',
     ':models',
-    '//:config'
+    '//:config',
+    requirement("flask_wtf"),
   ],
   visibility=['//visibility:public'],
 )
