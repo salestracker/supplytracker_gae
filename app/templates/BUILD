@@ -1,0 +1,24 @@
+filegroup(
+  name="templates_html",
+  srcs=glob([
+    "add/*.html",
+    "edit/*.html",
+    "form_templates/*.html",
+    "view/*.html",
+    "*.html",
+  ]),
+  data=[
+    "//app/static/css:style_srcs",
+    "//app/static/js:js_srcs",
+    "//app/static/fonts:fonts_srcs",
+  ],
+  visibility=['//visibility:public'],
+)
+
+filegroup(
+  name="templates_js",
+  srcs=glob([
+    "javascript/*.js",
+  ]),
+  visibility=['//visibility:public'],
+)

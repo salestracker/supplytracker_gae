@@ -68,5 +68,9 @@ py_library(
     ':models',
     ':forms',
   ],
+  data=[
+    "//app/templates:templates_html",
+    "//app/templates:templates_js",
+  ],
   visibility=['//visibility:public'],
 )
