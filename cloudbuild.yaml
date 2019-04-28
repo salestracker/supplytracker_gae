@@ -5,8 +5,8 @@ images: ['gcr.io/$PROJECT_ID/workspace/lib']
 
 steps:
 #  Fetch source.
-- name: "docker.io/library/python:3.6.8"
-  args: ['pip', 'install', '-t', '/workspace/lib', '-r', '/workspace/requirements.txt']
+#- name: "docker.io/library/python:3.6.8"
+#  args: ['pip', 'install', '-t', '/workspace/lib', '-r', '/workspace/requirements.txt']
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone', '--single-branch', '--branch=develop', 'https://github.com/codecakes/supplytracker_gae.git', 'supplytracker_gae']
 # Build the Bazel builder and output the version we built with.
@@ -19,9 +19,9 @@ steps:
   args: ['build', '--spawn_strategy=standalone', '//app:entry', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
 #- name: 'gcr.io/$PROJECT_ID/bazel'
-- name: 'gcr.io/cloud-builders/bazel'
-  args: ['build', '--spawn_strategy=standalone', ':run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
-  dir: '.'
+#- name: 'gcr.io/cloud-builders/bazel'
+#  args: ['build', '--spawn_strategy=standalone', ':run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
+#  dir: '.'
 #- id: build-builder
 #  name: gcr.io/cloud-builders/docker
 #  args: ['build', '--rm=false', '-f', 'Dockerfile.builder', '.']

@@ -22,6 +22,7 @@ py_library(
     requirement("flask"),
     requirement("sqlalchemy"),
     requirement("gunicorn"),
+    requirement("werkzeug"),
   ],
   visibility=['//visibility:public']
 )
