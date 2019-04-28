@@ -1,5 +1,6 @@
 load("@bazel_for_gcloud_python//infra/serverless:gae_rules.bzl", "py_app_engine")
 
+
 py_library(
   name='manage',
   srcs=['manage.py'],

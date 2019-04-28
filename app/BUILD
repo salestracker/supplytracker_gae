@@ -1,3 +1,5 @@
+load("@my_deps//:requirements.bzl", "requirement")
+
 py_binary(
   name='entry',
   srcs=['entry.py'],
@@ -15,6 +17,12 @@ py_binary(
 py_library(
   name='__init__',
   srcs=['__init__.py'],
+  deps=[
+    # This takes the name as specified in requirements.txt
+    requirement("flask"),
+    requirement("sqlalchemy"),
+    requirement("gunicorn"),
+  ],
   visibility=['//visibility:public']
 )
 

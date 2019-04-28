@@ -1,8 +1,12 @@
 # In this directory, run the following command to build this builder.
 # $ gcloud builds submit
 
+images: ['gcr.io/$PROJECT_ID/workspace/lib']
+
 steps:
 #  Fetch source.
+- name: "docker.io/library/python:3.6.8"
+  args: ['pip', 'install', '-t', '/workspace/lib', '-r', '/workspace/requirements.txt']
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone', '--single-branch', '--branch=develop', 'https://github.com/codecakes/supplytracker_gae.git', 'supplytracker_gae']
 # Build the Bazel builder and output the version we built with.
@@ -16,8 +20,13 @@ steps:
   dir: '.'
 #- name: 'gcr.io/$PROJECT_ID/bazel'
 - name: 'gcr.io/cloud-builders/bazel'
-  args: ['build', '--spawn_strategy=standalone', '//:run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
+  args: ['build', '--spawn_strategy=standalone', ':run', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures']
   dir: '.'
+#- id: build-builder
+#  name: gcr.io/cloud-builders/docker
+#  args: ['build', '--rm=false', '-f', 'Dockerfile.builder', '.']
+
 - name: 'gcr.io/cloud-builders/bazel'
-  args: ['run', '--spawn_strategy=standalone', '//:run', '--copt',  '--verbose_failures=true', '--show_timestamps=true', '--python_version=PY3', '--build_python_zip', '--sandbox_debug', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo']
+#  args: ['run', '--spawn_strategy=standalone', '//:run', '--copt',  '--verbose_failures=true', '--show_timestamps=true', '--python_version=PY3', '--build_python_zip', '--sandbox_debug', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo']
+  args: ['run', '--spawn_strategy=standalone', ':run', '--copt',  '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--verbose_failures=true', '--show_timestamps=true', '--python_version=PY3', '--build_python_zip', '--sandbox_debug', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS']
   dir: '.'
