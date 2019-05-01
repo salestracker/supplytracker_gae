@@ -3,9 +3,10 @@ from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
+import config
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object(config)
 db = SQLAlchemy(app)
 babel = Babel(app)
 

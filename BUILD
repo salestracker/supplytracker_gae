@@ -1,11 +1,16 @@
 load("@bazel_for_gcloud_python//infra/serverless:gae_rules.bzl", "py_app_engine")
 load("@my_deps//:requirements.bzl", "requirement")
 
-py_library(
+py_binary(
   name='manage',
   srcs=['manage.py'],
+  python_version='PY3',
+  stamp=0,
   deps=[
     '//app:__init__',
+    # This takes the name as specified in requirements.txt
+    requirement("flask-script"),
+    requirement("flask-migrate"),
   ],
   visibility=['//visibility:public'],
 )
@@ -13,6 +18,12 @@ py_library(
 py_library(
   name='config',
   srcs=['config.py'],
+  visibility=['//visibility:public'],
+)
+
+py_library(
+  name='__init__',
+  srcs=['__init__.py'],
   visibility=['//visibility:public'],
 )
 

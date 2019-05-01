@@ -1,7 +1,7 @@
-runtime: python37
+runtime: custom
 #vm: true
 env: flex
-entrypoint: gunicorn -b :$PORT run:app
+entrypoint: gunicorn -b :8080 run:app
 
 runtime_config:
   # You can also specify 2 for Python 2.7
@@ -25,6 +25,3 @@ resources:
   cpu: 1
   memory_gb: 0.5
   disk_size_gb: 10
-
-env_variables:
-  PORT: ${PORT}
