@@ -20,6 +20,8 @@ steps:
 #  args: ['run', '--spawn_strategy=standalone', '//:run', '--copt',  '--verbose_failures=true', '--show_timestamps=true', '--python_version=PY3', '--build_python_zip', '--sandbox_debug', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo']
   args: ['build', '--spawn_strategy=standalone', ':run', '--copt',  '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--verbose_failures=true', '--show_timestamps=true', '--python_version=PY3', '--build_python_zip', '--sandbox_debug', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS']
   dir: '.'
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  args: ['app', 'deploy', 'yaml_files/app.yaml']
 
 artifacts:
   objects:

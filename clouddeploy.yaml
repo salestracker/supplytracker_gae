@@ -1,8 +1,0 @@
-steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--tag=gcr.io/$PROJECT_ID/deploy:latest', '.']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy', 'app.yaml']
-  timeout: '600s'
-  env:
-    - 'PORT=8080'

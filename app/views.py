@@ -11,6 +11,8 @@ import config
 
 
 # TODO add safe redirect
+from werkzeug.exceptions import HTTPException
+
 
 @app.route('/')
 @app.route('/index')
@@ -893,7 +895,7 @@ def delete_sale_transaction():
 
 # region delete route
 
-@app.errorhandler(204)
+@app.errorhandler(HTTPException)
 def no_content_error(error):
   return render_template('errors/no-content-error.html')
 
