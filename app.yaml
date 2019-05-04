@@ -1,7 +1,7 @@
 runtime: custom
 #vm: true
 env: flex
-entrypoint: gunicorn -b :8080 run:app
+entrypoint: gunicorn -b :$PORT run:app
 
 runtime_config:
   # You can also specify 2 for Python 2.7

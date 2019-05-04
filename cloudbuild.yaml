@@ -9,8 +9,8 @@ steps:
 #- name: 'gcr.io/cloud-builders/git'
 #  args: ['clone', '--single-branch', '--branch=develop', 'https://github.com/codecakes/supplytracker_gae.git', 'supplytracker_gae']
 # Build the Bazel builder and output the version we built with.
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--tag=gcr.io/$PROJECT_ID/deploy:latest', '.']
+#- name: 'gcr.io/cloud-builders/docker'
+#  args: ['build', '--tag=gcr.io/$PROJECT_ID/deploy:latest', '.']
   # Build the targets.
 #- name: 'gcr.io/$PROJECT_ID/bazel'
 - name: 'gcr.io/cloud-builders/bazel'
@@ -21,8 +21,8 @@ steps:
   args: ['build', '--spawn_strategy=standalone', ':run', '--copt',  '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--verbose_failures=true', '--show_timestamps=true', '--python_version=PY3', '--build_python_zip', '--sandbox_debug', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS']
   dir: '.'
 
-#artifacts:
-#  objects:
-#    location: 'gs://supplytracker/'
-#    paths: ['cloudbuild.yaml']
-images: ['gcr.io/$PROJECT_ID/deploy:latest']
+artifacts:
+  objects:
+    location: 'gs://supplytracker/'
+    paths: ['cloudbuild.yaml']
+#images: ['gcr.io/$PROJECT_ID/deploy:latest']
