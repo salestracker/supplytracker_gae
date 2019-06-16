@@ -3,18 +3,20 @@
 
 steps:
   #  Fetch source.
-#  - name: "docker.io/library/python:3.6.8"
-#    args: ['pip', 'install', '-r', '/workspace/requirements.txt']
+  #  - name: "docker.io/library/python:3.6.8"
+  #    args: ['pip', 'install', '-r', '/workspace/requirements.txt']
   # Build the Bazel builder and output the version we built with.
   - name: 'gcr.io/cloud-builders/bazel'
     args: ['build', '--spawn_strategy=standalone', '//app:entry', '--copt', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--aspects=@bazel_tools//tools/python:srcs_version.bzl%find_requirements', '--output_groups=pyversioninfo', '--verbose_failures', '--show_timestamps=true', '--build_python_zip']
   - name: 'gcr.io/cloud-builders/bazel'
     args: ['build', '--spawn_strategy=standalone', '//:main', '--copt', '--host_force_python=PY3', '--force_python=PY3', '--color=yes', '--curses=yes', '--jobs=10', '--loading_phase_threads=HOST_CPUS', '--output_groups=pyversioninfo', '--verbose_failures', '--show_timestamps=true', '--build_python_zip']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/main', '.', '-f', 'Dockerfile']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/main', '.', '-f', 'deploy/Dockerfile']
   - name: 'gcr.io/cloud-builders/docker'
     args: ["push", 'gcr.io/$PROJECT_ID/main']
-    # Build the targets.
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "./deploy/app.yaml"]
+  # Build the targets.
   #- name: 'gcr.io/$PROJECT_ID/bazel'
 
 
@@ -22,5 +24,5 @@ steps:
 #  objects:
 #    location: 'gs://supplytracker_cloudbuild/'
 #    paths: ['cloudbuild.yaml']
-images: ['gcr.io/$PROJECT_ID/main']
+images: ['gcr.io/$PROJECT_ID/main:latest']
 
