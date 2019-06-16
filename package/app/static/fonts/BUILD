@@ -1,0 +1,11 @@
+filegroup(
+  name="fonts_srcs",
+  srcs=glob(
+    include=[
+      "*.*",
+    ],
+    exclude=[
+    ],
+  ),
+  visibility=['//visibility:public'],
+)

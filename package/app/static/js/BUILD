@@ -1,0 +1,13 @@
+filegroup(
+  name="js_srcs",
+  srcs=glob(
+    include=[
+      "*.min.js",
+    ],
+    exclude=[
+      "npm.js",
+      "testing.js",
+    ],
+  ),
+  visibility=['//visibility:public'],
+)

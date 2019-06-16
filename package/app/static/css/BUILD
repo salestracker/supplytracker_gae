@@ -1,0 +1,13 @@
+filegroup(
+  name="style_srcs",
+  srcs=glob(
+    include=[
+      "*.min.css",
+      "custom-bootstrap.css",
+    ],
+    exclude=[
+      "*.css.map",
+    ],
+  ),
+  visibility=['//visibility:public'],
+)

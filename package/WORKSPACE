@@ -1,0 +1,68 @@
+# workspace(name = "bazel_docker")
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# bazel-skylib 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
+skylib_version = "0.8.0"
+http_archive(
+    name = "bazel_skylib",
+    type = "tar.gz",
+    url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format (skylib_version, skylib_version),
+    sha256 = "2ef429f5d7ce7111263289644d233707dba35e39696377ebab8b0bc701f7818e",
+)
+
+# Download the rules_docker repository at release v0.7.0
+http_archive(
+    name = "io_bazel_rules_docker",
+    strip_prefix = "rules_docker-0.7.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.7.0.tar.gz"],
+)
+# To use py3_image. See: https://github.com/bazelbuild/rules_docker#py3_image
+load(
+    "@io_bazel_rules_docker//python3:image.bzl",
+    _py_image_repos = "repositories",
+)
+
+_py_image_repos()
+
+# For containers
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+container_repositories()
+
+
+# Use the git repository
+git_repository(
+    name = "bazel_for_gcloud_python",
+    remote = "https://github.com/weisi/bazel_for_gcloud_python.git",
+    branch="master",
+)
+
+# https://github.com/bazelbuild/rules_python
+git_repository(
+    name = "io_bazel_rules_python",
+    remote = "https://github.com/bazelbuild/rules_python.git",
+    # NOT VALID!  Replace this with a Git commit SHA.
+    branch= "master",
+)
+
+# Only needed for PIP support:
+load("@io_bazel_rules_python//python:pip.bzl", "pip_repositories")
+
+pip_repositories()
+
+# This rule translates the specified requirements.txt into
+# @my_deps//:requirements.bzl, which itself exposes a pip_install method.
+load("@io_bazel_rules_python//python:pip.bzl", "pip_import")
+pip_import(
+   name = "my_deps",
+   requirements = "//:requirements.txt",
+)
+
+# Load the pip_install symbol for my_deps, and create the dependencies'
+# repositories.
+load("@my_deps//:requirements.bzl", "pip_install")
+pip_install()
