@@ -21,7 +21,7 @@ guess-language==0.2
 gunicorn==19.9.0
 itsdangerous==0.24
 Jinja2==2.10.1
-Mako==1.0.3
+Mako==1.2.2
 MarkupSafe==0.23
 pbr==1.8.1
 pefile==2016.3.28
